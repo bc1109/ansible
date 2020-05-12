@@ -1,0 +1,34 @@
+- hosts: NXOS
+
+  tasks:
+   - name: Backup NEXUS with cli_command
+     cli_command:
+       command: show run | be ver
+     register: config 
+
+   - name: Save output to ~/network-programmability/backups/
+     copy:
+       content: "{{config.stdout}}"
+       dest: "~/network-programmability/backups/{{hostvars.localhost.DTG}}/{{inventory_hostname}}-{{hostvars.localhost.DTG}}-config.txt"
+
+
+
+
+
+
+
+
+
+- hosts: switches
+ 
+  
+
+  tasks:
+   - name: Backup Catalyst Switch 
+  
+     ios_config:
+       backup: yes
+       backup_options:
+         filename: "{{inventory_hostname}}-{{hostvars.localhost.DTG}}-config.txt"
+         dir_path: "-/Documents/Backups/{{hostvars.localhost.DTG}}"
+         #dir_path: /home/Documents/Backups/{{hostvars.localhost.DTG}}

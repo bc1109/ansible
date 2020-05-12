@@ -1,0 +1,25 @@
+---
+- name: UPGRADE ROUTER FIRMWARE
+  hosts: ASW1
+  connection: local
+  gather_facts: no
+
+  tasks:
+    - name: GATHER ROUTER FACTS
+      ios_facts:
+        #gather_subset:
+          #- all
+        #register: facts
+
+    - name: VIEW ALL ANSIBLE FACT KEYS
+       debug:
+         var: ansible_facts.keys()
+
+    - name: VIEW HOSTNAME
+       debug:
+         var: ansible_net_hostname
+     
+    - name: VIEW OS VERSION
+       debug:
+         var: ansible_net_version
+

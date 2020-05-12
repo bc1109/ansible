@@ -1,0 +1,27 @@
+---
+- hosts: switches
+  gather_facts: no
+  connection: local 
+
+  tasks:
+  - name: GET CREDENTIALS
+    include_vars: secrets.yaml
+
+  - name: DEFINE CONNECTION
+    set_fact:
+       connection:
+          authorize: yes
+          host: "{{ inventory_hostname }}"
+          username: "{{ creds['username'] }}"
+          password: "{{ creds['password'] }}"
+          auth_pass: "{{ creds['auth_pass'] }}"
+  
+  - name: GATHER ROUTER FACTS
+    ios_facts:
+      provider: "{{ connection }}"
+      gather_subset: all
+
+
+  - name: Display the config
+    debug:
+      msg: "The hostname is {{ ansible_net_hostname }} and the OS is {{ ansible_net_version }}"

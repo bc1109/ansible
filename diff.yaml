@@ -1,0 +1,26 @@
+---
+- hosts: switches
+  gather_facts: yes
+  connection: local 
+
+
+  tasks:
+  - name: GET CREDENTIALS
+    include_vars: secrets.yaml
+
+  - name: DEFINE CONNECTION
+    set_fact:
+       connection:
+          authorize: yes
+          host: "{{ inventory_hostname }}"
+          username: "{{ creds['username'] }}"
+          password: "{{ creds['password'] }}"
+          auth_pass: "{{ creds['auth_pass'] }}"
+
+  - name:  
+    ios_config:
+      provider: "{{ connection }}"
+      diff_against: startup
+    register: diff
+
+  - debug: var=diff.stdout_lines

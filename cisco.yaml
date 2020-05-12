@@ -1,0 +1,35 @@
+---
+- hosts: switches
+  gather_facts: yes
+  connection: local 
+
+
+  tasks:
+  - name: GET CREDENTIALS
+    include_vars: secrets.yaml
+
+  - name: DEFINE CONNECTION
+    set_fact:
+       connection:
+          authorize: yes
+          host: "{{ inventory_hostname }}"
+          username: "{{ creds['username'] }}"
+          password: "{{ creds['password'] }}"
+          auth_pass: "{{ creds['auth_pass'] }}"
+
+  - name: RUN SHOW INTERFACES 
+    ios_command:
+      provider: "{{ connection }}"
+      commands:
+         - show ip interface brief | ex una
+    register: ipbrief
+
+  - name: RUN SHOW INTERFACE VLAN 1
+    ios_command:
+      provider: "{{ connection }}"
+      commands:
+         - show running-config interface vlan 1
+    register: vlan1
+
+  - debug: var=ipbrief.stdout_lines
+  - debug: var=vlan1.stdout_lines

@@ -1,0 +1,35 @@
+
+---
+ - name: GATHER FACTS FOR IOS
+   hosts: ASW1
+   connection: network_cli
+   gather_facts: yes    #<---Gather Facts Disabled
+
+   tasks:
+
+     - name: GATHER FACTS FOR IOS IN A TASK
+       ios_facts:
+
+     - name: VIEW ALL ANSIBLE FACT KEYS
+       debug:
+         var: ansible_facts.keys()
+
+     - name: VIEW HOSTNAME
+       debug:
+         var: ansible_net_hostname
+     
+     - name: VIEW OS VERSION
+       debug:
+         var: ansible_net_version
+
+
+
+
+
+
+
+
+
+
+# https://blog.networktocode.com/post/ansible-gather_facts-enabled/
+# https://gdykeman.github.io/2018/06/26/ios-upgrades/
