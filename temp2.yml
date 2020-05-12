@@ -20,7 +20,7 @@
      
      - name: VIEW OS VERSION
        debug:
-         var: ansible_net_version
+         var: ansible_net_version #comment addded for no reason - testing Git
 
 
 
