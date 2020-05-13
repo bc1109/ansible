@@ -1,5 +1,5 @@
 ---
-- hosts: switches
+- hosts: ASW1
   gather_facts: yes
   connection: local 
 
@@ -17,10 +17,11 @@
           password: "{{ creds['password'] }}"
           auth_pass: "{{ creds['auth_pass'] }}"
 
-  - name:  
+  - name: GET DIFF 
     ios_config:
-      provider: "{{ connection }}"
-      diff_against: startup
+      # provider: "{{ connection }}"
+      diff_against: running
     register: diff
 
-  - debug: var=diff.stdout_lines
+  - debug: 
+      msg: "{{diff}}"
